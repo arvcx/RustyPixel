@@ -1,0 +1,10 @@
+[package]
+name = "rustypixel-protocol"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+serde.workspace = true
+
+[dev-dependencies]
+toml.workspace = true

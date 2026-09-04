@@ -1,0 +1,3 @@
+-- RustyPixel default game: blocks
+-- Block definitions will live here.
+-- Block registration arrives in Phase 6.

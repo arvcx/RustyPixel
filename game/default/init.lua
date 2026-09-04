@@ -1,0 +1,3 @@
+-- RustyPixel default game: init
+-- Loaded first when the default game starts.
+-- Gameplay scripting arrives in Phase 6.

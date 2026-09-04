@@ -1,0 +1,11 @@
+[package]
+name = "rustypixel-client"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+bevy.workspace = true
+rustypixel-engine.workspace = true
+rustypixel-protocol.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true

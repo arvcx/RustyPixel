@@ -1,0 +1,15 @@
+# Rust/Wasm
+
+/target
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.idea/
+.vscode/
+*.swp
+
+# Logs
+*.log

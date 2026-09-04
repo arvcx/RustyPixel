@@ -1,0 +1,3 @@
+-- RustyPixel default game: items
+-- Item definitions will live here.
+-- Item registration arrives in Phase 6.

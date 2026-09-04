@@ -1,0 +1,3 @@
+-- RustyPixel default game: gameplay
+-- Gameplay rules, commands and events will live here.
+-- Arrives with the Lua runtime in Phase 6.

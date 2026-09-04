@@ -1,0 +1,10 @@
+[package]
+name = "rustypixel-server"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+rustypixel-engine.workspace = true
+rustypixel-protocol.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true

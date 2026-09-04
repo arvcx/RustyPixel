@@ -1,0 +1,7 @@
+# Example dedicated server configuration (PRD §25).
+# Copy this to where you run the server, or edit in place.
+# Fields may be omitted; missing fields fall back to defaults.
+
+name = "My RustyPixel Server"
+max_players = 50
+port = 17091
