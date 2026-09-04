@@ -6,15 +6,18 @@
 mod background;
 mod camera;
 mod player;
+mod player_ui;
 mod world;
 
 use bevy::app::AppExit;
 use bevy::image::ImagePlugin;
+use bevy::input_focus::tab_navigation::TabNavigationPlugin;
 use bevy::prelude::*;
 use bevy::window::{Window, WindowPlugin, WindowResolution};
 use rustypixel_engine::world::WorldGrid;
 
 use crate::camera::{LOGICAL_HEIGHT, LOGICAL_WIDTH, WINDOW_SCALE};
+use crate::player_ui::ChatState;
 
 /// Size of one tile in world units.
 pub const TILE: f32 = 16.0;
@@ -89,11 +92,15 @@ fn main() {
                     ..default()
                 }),
         )
+        // Tab-indexed focus navigation for the chat input widget.
+        .add_plugins(TabNavigationPlugin)
         // Fixed 60 Hz physics timestep; `Res<Time>` inside FixedUpdate systems
         // resolves to `Time<Fixed>` automatically.
         .insert_resource(Time::<Fixed>::from_seconds(1.0 / 60.0))
         // Night-sky backdrop shown wherever the scene doesn't cover the view.
         .insert_resource(ClearColor(Color::srgb(0.07, 0.09, 0.13)))
+        // Chat overlay state (open flag + current message bubble).
+        .insert_resource(ChatState::default())
         .add_systems(
             Startup,
             (
@@ -103,6 +110,7 @@ fn main() {
                     camera::setup_camera,
                     world::spawn_world,
                     player::spawn_player,
+                    player_ui::spawn_overhead_ui,
                 )
                     .chain(),
             )
@@ -125,6 +133,9 @@ fn main() {
                 player::update_anim_state,
                 player::animate_rect,
                 camera::camera_follow,
+                player_ui::chat_toggle,
+                player_ui::chat_submit,
+                player_ui::bubble_expiry,
                 save_world_on_exit,
             ),
         )

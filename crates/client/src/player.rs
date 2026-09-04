@@ -3,6 +3,7 @@
 
 use bevy::prelude::*;
 
+use crate::player_ui::ChatState;
 use crate::world::tile_center;
 use crate::{TILE, WorldResource};
 
@@ -128,19 +129,28 @@ pub fn apply_gravity(mut query: Query<&mut Velocity>, time: Res<Time>) {
     }
 }
 
-/// Read keyboard input and set horizontal velocity; jump on Space when
-/// grounded.
+/// Read keyboard input and set horizontal velocity; jump on Space or W when
+/// grounded. While the chat box is open, keyboard input belongs to typing, so
+/// the player coasts to a stop and ignores movement keys.
 pub fn player_control(
     mut query: Query<(&mut Velocity, &Player)>,
     keys: Res<ButtonInput<KeyCode>>,
+    chat: Res<ChatState>,
 ) {
     let right = keys.pressed(KeyCode::KeyD) || keys.pressed(KeyCode::ArrowRight);
     let left = keys.pressed(KeyCode::KeyA) || keys.pressed(KeyCode::ArrowLeft);
     let horizontal = (right as i8 - left as i8) as f32 * MOVE_SPEED;
 
     for (mut velocity, player) in &mut query {
+        if chat.open {
+            // Chat is typing: block movement and jump input, and cancel any
+            // existing horizontal motion so the player doesn't glide away.
+            velocity.0.x = 0.0;
+            continue;
+        }
         velocity.0.x = horizontal;
-        if keys.just_pressed(KeyCode::Space) && player.grounded {
+        let jump = keys.just_pressed(KeyCode::Space) || keys.just_pressed(KeyCode::KeyW);
+        if jump && player.grounded {
             velocity.0.y = JUMP_VELOCITY;
         }
     }
